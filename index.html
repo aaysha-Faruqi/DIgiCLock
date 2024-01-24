@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            text-align: center;
+            transition: background-image 1s ease-in-out;
+        }
+
+        #clock {
+            font-size: 3em;
+        }
+
+        #greeting {
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+    
+
+        /* Different background images for different times of the day */
+        .morning {
+            background-image: url('image/Morning.jpg');
+        }
+
+        .afternoon {
+            background-image: url('image/SUnny.jpg');
+        }
+
+        .evening {
+            background-image: url("image/evening.jpg");
+        }
+
+        .night {
+            background-image: url('image/Night.jpg');
+        }
+    </style>
+</head>
+<body>
+
+<div id="clock"></div>
+<div id="greeting"></div>
+
+<script>
+
+document.cookie = "your_cookie_name=your_cookie_value; SameSite=None; Secure";
+
+    function updateTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        const formattedHours = String(hours).padStart(2, '0');
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        const formattedSeconds = String(seconds).padStart(2, '0');
+
+        const timeString = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        document.getElementById('clock').textContent = timeString;
+
+        // Dynamic Greeting
+        let greeting = '';
+        if (hours >= 5 && hours < 12) {
+            greeting = 'Good morning';
+            changeBackground('morning');
+        } else if (hours >= 12 && hours < 18) {
+            greeting = 'Good afternoon';
+            changeBackground('afternoon');
+        } else if (hours >= 18 && hours < 20) {
+            greeting = 'Good evening';
+            changeBackground('evening');
+        } else {
+            greeting = 'Good night';
+            changeBackground('night');
+        }
+        document.getElementById('greeting').textContent = greeting;
+    }
+
+    function changeBackground(timeOfDay) {
+        document.body.className = timeOfDay;
+    }
+
+    updateTime(); // Initial call to display time immediately
+    setInterval(updateTime, 1000); // Update time every second
+</script>
+
+</body>
+</html>
